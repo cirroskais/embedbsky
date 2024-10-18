@@ -32,10 +32,10 @@ export function post(author: Author, post: PostView) {
 <meta property="og:description" content="${(post.record as Record)?.text || ""}
 
 💖 ${post.likeCount || 0} 🔁 ${(post.repostCount || 0) + (post.quoteCount || 0)} 💬 ${post.replyCount}" />
-${images[0] ? `<meta name="twitter:image" content="${images[0].fullsize}" />` : ""}
-${images[1] ? `<meta name="twitter:image" content="${images[1].fullsize}" />` : ""}
-${images[2] ? `<meta name="twitter:image" content="${images[2].fullsize}" />` : ""}
-${images[3] ? `<meta name="twitter:image" content="${images[3].fullsize}" />` : ""}
+${images?.[0] ? `<meta name="twitter:image" content="${images[0].fullsize}" />` : ""}
+${images?.[1] ? `<meta name="twitter:image" content="${images[1].fullsize}" />` : ""}
+${images?.[2] ? `<meta name="twitter:image" content="${images[2].fullsize}" />` : ""}
+${images?.[3] ? `<meta name="twitter:image" content="${images[3].fullsize}" />` : ""}
 <link rel="alternate" href="https://embed.bsky.app/oembed?url=${post.uri}" type="application/json+oembed" title=${author.displayName || author.handle}>
 <style>
 html, body { background-color: black; color: white; }

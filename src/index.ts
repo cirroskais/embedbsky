@@ -8,6 +8,21 @@ const app = new Hono();
 const agent = new AtpAgent({ service: "https://bsky.social" });
 await agent.login({ identifier: process.env.BSKY_IDENTIFIER, password: process.env.BSKY_PASSWORD });
 
+app.get("/profile/:handle", async (c) => {
+    if (c.req.header("User-Agent") !== "Mozilla/5.0 (compatible; Discordbot/2.0; +https://discordapp.com)")
+        return c.redirect(`https://bsky.app${c.req.path}`);
+
+    const handle = c.req.param("handle");
+
+    try {
+        const { data } = await agent.getProfile({ actor: handle });
+        return c.html(profile(data));
+    } catch (e) {
+        console.log(e);
+        c.redirect("https://bsky.app/");
+    }
+});
+
 app.get("/profile/:handle/post/:id", async (c) => {
     if (c.req.header("User-Agent") !== "Mozilla/5.0 (compatible; Discordbot/2.0; +https://discordapp.com)")
         return c.redirect(`https://bsky.app${c.req.path}`);
@@ -21,20 +36,7 @@ app.get("/profile/:handle/post/:id", async (c) => {
 
         return c.html(post(author.data, data.posts[0]));
     } catch (e) {
-        c.redirect("https://bsky.app/");
-    }
-});
-
-app.get("/profile/:handle", async (c) => {
-    if (c.req.header("User-Agent") !== "Mozilla/5.0 (compatible; Discordbot/2.0; +https://discordapp.com)")
-        return c.redirect(`https://bsky.app${c.req.path}`);
-
-    const handle = c.req.param("handle");
-
-    try {
-        const { data } = await agent.getProfile({ actor: handle });
-        return c.html(profile(data));
-    } catch (e) {
+        console.log(e);
         c.redirect("https://bsky.app/");
     }
 });
