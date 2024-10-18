@@ -41,8 +41,4 @@ app.get("/profile/:handle", async (c) => {
 
 app.all("*", (c) => c.redirect("https://github.com/cirroskais/embedsky"));
 
-export default {
-    port: 45737,
-    fetch: app.fetch,
-    hostname: "0.0.0.0",
-};
+export default app;
