@@ -41,4 +41,7 @@ app.get("/profile/:handle/post/:id", async (c) => {
 
 app.all("*", (c) => c.redirect("https://github.com/cirroskais/embedsky"));
 
-export default app;
+export default {
+    fetch: app.fetch,
+    hostname: process.env.NODE_ENV === "development" ? "0.0.0.0" : "localhost",
+};
