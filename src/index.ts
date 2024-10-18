@@ -18,8 +18,7 @@ app.get("/profile/:handle", async (c) => {
         const { data } = await agent.getProfile({ actor: handle });
         return c.html(profile(data));
     } catch (e) {
-        console.log(e);
-        c.redirect("https://bsky.app/");
+        return c.redirect("https://bsky.app/");
     }
 });
 
@@ -36,8 +35,7 @@ app.get("/profile/:handle/post/:id", async (c) => {
 
         return c.html(post(author.data, data.posts[0]));
     } catch (e) {
-        console.log(e);
-        c.redirect("https://bsky.app/");
+        return c.redirect("https://bsky.app/");
     }
 });
 
