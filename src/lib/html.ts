@@ -39,6 +39,15 @@ type External = {
     thumb: string;
 };
 
+function escape(text: string) {
+    return text
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/&/g, "&amp;");
+}
+
 export function post(author: Author, post: PostView) {
     const images = post.embed?.images as Images | undefined;
     const media = post.embed?.media as Media | undefined;
@@ -52,8 +61,8 @@ export function post(author: Author, post: PostView) {
 <head>
 <meta content="#1083fe" name="theme-color" />
 <meta property="og:site_name" content="embedsky 🟦 ☁️">
-<link rel="alternate" href="https://embed.bsky.app/oembed?url=${post.uri}" type="application/json+oembed" title=${author.displayName || author.handle}>
-<meta property="og:description" content="${(post.record as Record)?.text || ""}
+<link rel="alternate" href="https://embed.bsky.app/oembed?url=${post.uri}" type="application/json+oembed" title=${escape(author.displayName || author.handle)}>
+<meta property="og:description" content="${escape((post.record as Record)?.text || "")}
 
 💖 ${post.likeCount || 0} 🔁 ${(post.repostCount || 0) + (post.quoteCount || 0)} 💬 ${post.replyCount}" />
 
@@ -88,8 +97,8 @@ export function profile(profile: ProfileViewDetailed) {
 <head>
 <meta content="#1083fe" name="theme-color" />
 <meta property="og:site_name" content="embedsky 🟦 ☁️">
-<meta property="og:title" content="${profile.displayName ? `${profile.displayName} (@${profile.handle})` : `@${profile.handle}`}">
-<meta property="og:description" content="${profile.description}">
+<meta property="og:title" content="${escape(profile.displayName ? `${profile.displayName} (@${profile.handle})` : `@${profile.handle}`)}">
+<meta property="og:description" content="${escape(profile.description || "")}">
 <meta name="twitter:image" content="${profile.avatar}" />
 <style>
 html, body { background-color: black; color: white; }
