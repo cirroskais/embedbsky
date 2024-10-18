@@ -43,5 +43,5 @@ app.all("*", (c) => c.redirect("https://github.com/cirroskais/embedsky"));
 
 export default {
     fetch: app.fetch,
-    hostname: process.env.NODE_ENV === "development" ? "0.0.0.0" : "127.0.0.1",
+    hostname: "0.0.0.0",
 };
