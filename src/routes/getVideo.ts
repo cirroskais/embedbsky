@@ -3,7 +3,7 @@ import { createVideoUrl } from "../lib/util";
 
 const responseOpts = {
     headers: {
-        "Content-Type": "video/webm",
+        "Content-Type": "video/mp4",
         "Cache-Control": "max-age=604800",
     },
 };
