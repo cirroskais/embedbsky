@@ -1,9 +1,9 @@
+import { Hono } from "hono";
 import { Profile } from "../lib/Profile";
 import { ErrorPage } from "../lib/Error";
 import agent from "../lib/agent";
 import { DEVELOPMENT } from "../lib/util";
 
-import { Hono } from "hono";
 const app = new Hono().get("/", async (c) => {
     if (c.req.header("User-Agent") !== "Mozilla/5.0 (compatible; Discordbot/2.0; +https://discordapp.com)" && !DEVELOPMENT)
         return c.redirect(`https://bsky.app${c.req.path}`);

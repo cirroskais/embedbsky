@@ -4,8 +4,9 @@ import type { ProfileViewDetailed } from "@atproto/api/dist/client/types/app/bsk
 import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import type { Record } from "@atproto/api/dist/client/types/app/bsky/feed/post";
 import type { Image } from "@atproto/api/dist/client/types/app/bsky/embed/images";
-import { createImageUrl } from "./util";
+import { BASE_URL, createImageUrl, createVideoThumbnailUrl } from "./util";
 import type { External } from "@atproto/api/dist/client/types/app/bsky/embed/external";
+import type { BlobRef } from "@atproto/api";
 
 export function Post(author: ProfileViewDetailed, post: PostView) {
     const record = post.record as Record;
@@ -20,6 +21,7 @@ export function Post(author: ProfileViewDetailed, post: PostView) {
     let isQuotePost = !!record.embed?.record;
 
     let external = record.embed?.external as External;
+    let video = record.embed?.video as BlobRef;
 
     let images = record.embed?.images as Image[];
     let imageTags = [];
@@ -33,11 +35,14 @@ export function Post(author: ProfileViewDetailed, post: PostView) {
 
     return (
         <Layout>
+            <meta property="og:type" content={isVideoPost ? "video.other" : "website"} />
             <link rel="alternate" href={alternate} type="application/json+oembed" title={author.displayName || author.handle} />
             <meta property="og:description" content={description} />
             {(isImagePost || isTenorPost) && <meta name="twitter:card" content="summary_large_image" />}
             {isImagePost && imageTags}
             {isTenorPost && <meta name="twitter:image" content={external.uri} />}
+            {isVideoPost && <meta property="og:image" content={createVideoThumbnailUrl(author.did, video)} />}
+            {isVideoPost && <meta property="og:video" content={`${BASE_URL}/video/${author.did}/${video.ref}`} />}
         </Layout>
     );
 }
