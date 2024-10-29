@@ -31,7 +31,7 @@ const app = new Hono().get("/", async (c) => {
 
     if (!file) {
         const video = createVideoUrl(did, { ref: blob });
-        Bun.spawnSync(["ffmpeg", "-i", video, `/tmp/${blob}.mp4`]);
+        Bun.spawnSync(["ffmpeg", "-http_persistent", "0", "-i", video, "-c:v", "copy", "-c:a", "copy", `/tmp/${blob}.mp4`]);
 
         const file = Bun.file(`/tmp/${blob}.mp4`);
         if (!(await file.exists())) return c.notFound();

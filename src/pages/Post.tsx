@@ -42,7 +42,12 @@ export function Post(author: ProfileViewDetailed, post: PostView) {
             {isImagePost && imageTags}
             {isTenorPost && <meta name="twitter:image" content={external.uri} />}
             {isVideoPost && <meta property="og:image" content={createVideoThumbnailUrl(author.did, video)} />}
-            {isVideoPost && <meta property="og:video" content={`${BASE_URL}/video/${author.did}/${video.ref}/video.mp4`} />}
+            {isVideoPost && (
+                <meta
+                    property="og:video"
+                    content={`${BASE_URL}/video/${author.did}/${video.ref}/video.mp4?${crypto.randomUUID()}`}
+                />
+            )}
         </Layout>
     );
 }
