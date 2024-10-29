@@ -4,7 +4,7 @@ import type { ProfileViewDetailed } from "@atproto/api/dist/client/types/app/bsk
 import type { PostView } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import type { Record } from "@atproto/api/dist/client/types/app/bsky/feed/post";
 import type { Image } from "@atproto/api/dist/client/types/app/bsky/embed/images";
-import { BASE_URL, createImageUrl, createVideoThumbnailUrl } from "./util";
+import { BASE_URL, createImageUrl, createVideoThumbnailUrl } from "../lib/util";
 import type { External } from "@atproto/api/dist/client/types/app/bsky/embed/external";
 import type { BlobRef } from "@atproto/api";
 
